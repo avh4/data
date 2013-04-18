@@ -3,6 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/data.iml" filepath="$PROJECT_DIR$/data.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../gdata-facade/gdata.iml" filepath="$PROJECT_DIR$/../gdata-facade/gdata.iml" />
     </modules>
   </component>
 </project>
