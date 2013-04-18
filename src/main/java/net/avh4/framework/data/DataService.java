@@ -23,7 +23,11 @@ public class DataService {
 
             @Override
             public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
-                if (args != null) {
+                if (method.getName().equals("hashCode")) {
+                    return 0;
+//                } else if (method.getName().equals("equals")) {
+//                    return true;
+                } else if (args != null) {
                     String attributeName = method.getName().substring(1);
                     values.put(attributeName, args[0]);
                     return null;
