@@ -99,14 +99,4 @@ public class DataServiceTest {
         List<TestDefinition> persistedList = new DataService(store).getList(TestDefinition.class);
         assertThat(persistedList).isEqualTo(list);
     }
-
-    private static interface TestDefinition {
-        void setName(String name);
-
-        String getName();
-
-        void setTitle(String title);
-
-        String getTitle();
-    }
 }
