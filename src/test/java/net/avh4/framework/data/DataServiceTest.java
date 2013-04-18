@@ -12,11 +12,11 @@ public class DataServiceTest {
     private TestDefinition object;
     private TestDefinition differentObject;
     private List<TestDefinition> list;
-    private DataStore store;
+    private DataStore<TestDefinition> store;
 
     @Before
     public void setUp() {
-        store = new MemoryDataStore();
+        store = new MemoryDataStore<>();
         subject = new DataService(store);
         object = subject.create(TestDefinition.class);
         differentObject = subject.create(TestDefinition.class);
