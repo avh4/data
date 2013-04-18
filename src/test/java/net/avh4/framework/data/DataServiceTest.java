@@ -12,10 +12,12 @@ public class DataServiceTest {
     private TestDefinition object;
     private TestDefinition differentObject;
     private List<TestDefinition> list;
+    private DataStore store;
 
     @Before
     public void setUp() {
-        subject = new DataService();
+        store = new MemoryDataStore();
+        subject = new DataService(store);
         object = subject.create(TestDefinition.class);
         differentObject = subject.create(TestDefinition.class);
         list = subject.getList(TestDefinition.class);
@@ -49,14 +51,14 @@ public class DataServiceTest {
         assertThat(object.hashCode()).isEqualTo(object.hashCode());
     }
 
-//    @Test
-//    public void createdObject_testEquals() {
-//        assertThat(object.equals(object)).isTrue();
-//        assertThat(object.equals(differentObject)).isTrue();
-//
+    @Test
+    public void createdObject_testEquals() {
+        assertThat(object.equals(object)).isTrue();
+        assertThat(object.equals(differentObject)).isTrue();
+
 //        differentObject.setName("Something else");
 //        assertThat(object.equals(differentObject)).isFalse();
-//    }
+    }
 
     @Test
     public void shouldCreateList() {
@@ -74,10 +76,37 @@ public class DataServiceTest {
         assertThat(list).contains(object);
     }
 
+    @Test
+    public void addingToList_shouldPersist() {
+        list.add(object);
+        List<TestDefinition> persistedList = new DataService(store).getList(TestDefinition.class);
+        assertThat(persistedList).isEqualTo(list);
+    }
+
+    @Test
+    public void addingSecondItemToList_shouldPersist() {
+        list.add(object);
+        list.add(differentObject);
+        List<TestDefinition> persistedList = new DataService(store).getList(TestDefinition.class);
+        assertThat(persistedList).isEqualTo(list);
+    }
+
+    @Test
+    public void loadingList_shouldNotCorruptPersistedData() {
+        list.add(object);
+        list.add(differentObject);
+        new DataService(store).getList(TestDefinition.class);
+        List<TestDefinition> persistedList = new DataService(store).getList(TestDefinition.class);
+        assertThat(persistedList).isEqualTo(list);
+    }
+
     private static interface TestDefinition {
         void setName(String name);
+
         String getName();
+
         void setTitle(String title);
+
         String getTitle();
     }
 }
