@@ -18,29 +18,31 @@ public class DataService {
     }
 
     public <T> T create(Class<T> definition) {
-        InvocationHandler handler = new InvocationHandler() {
-            HashMap<String, Object> values = new HashMap<>();
-
-            @Override
-            public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
-                if (method.getName().equals("hashCode")) {
-                    return 0;
-//                } else if (method.getName().equals("equals")) {
-//                    return true;
-                } else if (args != null) {
-                    String attributeName = method.getName().substring(1);
-                    values.put(attributeName, args[0]);
-                    return null;
-                } else {
-                    String attributeName = method.getName().substring(1);
-                    return values.get(attributeName);
-                }
-            }
-        };
+        InvocationHandler handler = new DefinitionImplementation();
         @SuppressWarnings("unchecked")
         T object = (T) Proxy.newProxyInstance(definition.getClassLoader(),
                 new Class[]{definition},
                 handler);
         return object;
+    }
+
+    private static class DefinitionImplementation implements InvocationHandler {
+        HashMap<String, Object> values = new HashMap<>();
+
+        @Override
+        public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
+            if (method.getName().equals("hashCode")) {
+                return 0;
+//                } else if (method.getName().equals("equals")) {
+//                    return true;
+            } else if (args != null) {
+                String attributeName = method.getName().substring(1);
+                values.put(attributeName, args[0]);
+                return null;
+            } else {
+                String attributeName = method.getName().substring(1);
+                return values.get(attributeName);
+            }
+        }
     }
 }
