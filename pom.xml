@@ -42,17 +42,14 @@
 
     <dependencies>
         <dependency>
+            <groupId>net.avh4.facade</groupId>
+            <artifactId>gdata</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+        </dependency>
+
+        <dependency>
             <groupId>com.google.guava</groupId>
             <artifactId>guava</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>net.avh4.framework</groupId>
-            <artifactId>uilayer-core</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>net.avh4.framework</groupId>
-            <artifactId>uilayer-swing</artifactId>
-            <scope>runtime</scope>
         </dependency>
 
         <dependency>

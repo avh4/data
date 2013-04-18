@@ -22,10 +22,14 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <processorPath useClasspath="true" />
+        <module name="data" />
+        <module name="gdata" />
         <module name="myproject" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
+      <module name="data" target="1.7" />
+      <module name="gdata" target="1.7" />
       <module name="myproject" target="1.7" />
     </bytecodeTargetLevel>
   </component>
