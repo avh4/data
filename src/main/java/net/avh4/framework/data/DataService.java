@@ -4,6 +4,7 @@ import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class DataService {
@@ -18,18 +19,21 @@ public class DataService {
 
     public <T> T create(Class<T> definition) {
         InvocationHandler handler = new InvocationHandler() {
-            Object lastValue;
+            HashMap<String, Object> values = new HashMap<>();
 
             @Override
             public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
                 if (args != null) {
-                    lastValue = args[0];
+                    String attributeName = method.getName().substring(1);
+                    values.put(attributeName, args[0]);
                     return null;
                 } else {
-                    return lastValue;
+                    String attributeName = method.getName().substring(1);
+                    return values.get(attributeName);
                 }
             }
         };
+        @SuppressWarnings("unchecked")
         T object = (T) Proxy.newProxyInstance(definition.getClassLoader(),
                 new Class[]{definition},
                 handler);

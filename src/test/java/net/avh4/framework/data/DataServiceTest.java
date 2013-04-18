@@ -26,13 +26,22 @@ public class DataServiceTest {
     }
 
     @Test
-    public void createdObjects_shouldStoreData() {
+    public void createdObjects_shouldStoreAttributes() {
         object.setName("Bobby");
         assertThat(object.getName()).isEqualTo("Bobby");
+    }
+
+    @Test
+    public void createdObject_shouldDistinguishAttributes() {
+        object.setTitle("Doctor");
+        object.setName("Who");
+        assertThat(object.getTitle()).isEqualTo("Doctor");
     }
 
     private static interface TestDefinition {
         void setName(String name);
         String getName();
+        void setTitle(String title);
+        String getTitle();
     }
 }
